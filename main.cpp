@@ -9,7 +9,7 @@ using namespace std;
 //menu
 int main() {
     int option;
-    cout << "Welcome to the WAR! Captain!" << endl;
+    cout << "Welcome to the WAR! Bitch!" << endl;
     cout << "*** Game Menu ***" << endl;
     cout << "[1] Start Game" << endl;
     cout << "[2] Settings" << endl;
