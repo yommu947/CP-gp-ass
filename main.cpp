@@ -19,8 +19,24 @@ char alphabet(int num) {//turn number into character
         case 8: return 'H';
         case 9: return 'I';
         case 10: return 'J';
-        default: return 'A';
+        default: return '*';
     }
+}
+
+char number(int num) {//turn number into character
+	switch (num) {
+	case A: return 1;
+	case B: return 2;
+	case C: return 3;
+	case D: return 4;
+	case E: return 5;
+	case F: return 6;
+	case G: return 7;
+	case H: return 8;
+	case I: return 9;
+	case J: return 10;
+	default: return 0;
+	}
 }
 
 void setting() {
@@ -85,8 +101,11 @@ void clear() {
 };
 
 void arrange(){
+	int xtemp; ytemp, direction;
     for (int c = 1; c <= carrier; c++) {
-        cout << "Input coordinate of carrier "<<c<<": ";
+        cout << "Input coordinate of carrier(e.g. C2) "<<c<<":";
+		
+
     }
     for (int c = 1; c <= battleship; c++) {}
     for (int c = 1; c <= submarine; c++) {}
@@ -99,6 +118,9 @@ void game() {
 }
 
 int main() {
+	char hi;
+	cin >> hi;
+	cout << number(hi);
     int choice;
     cout << "\nWelcome Captain!";//welcome massage
     cout << "\n\n*** Game Manu ***\n";
@@ -107,11 +129,11 @@ int main() {
     cout << endl << "Option (1 - 5):";
     cin >> choice;
     switch (choice) {
-        case 1:game();
-        case 2:setting();
+		case 1:game(); main();
+		case 2:setting(); main();
         case 3:;
         case 4:;
-        case 5:
+		case 5:break;
         default: cout << "Please input 1-5";main();
             
     }
