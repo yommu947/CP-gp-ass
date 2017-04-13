@@ -35,13 +35,13 @@ void setting() {
         case 2:cout << "Display PC's ships?;(Input 1 for yes 0 for no)"; cin >> displaypc; setting();
         case 3:cout << "Set sea size(5 to 10)"; cin >> seasize; setting();
         case 4:
-            cout << "Carrier " << carrier << " change to ";
+            cout << "Carrier (" << carrier << ") change to ";
             cin >> carrier;
-            cout << "Battleship " << battleship << " change to ";
+            cout << "Battleship (" << battleship << ") change to ";
             cin >> battleship;
-            cout << "Submarine " << submarine << " change to ";
+            cout << "Submarine (" << submarine << ") change to ";
             cin >> submarine;
-            cout << "Destroyer " << destroyer << " change to ";
+            cout << "Destroyer (" << destroyer << ") change to ";
             cin >> destroyer; setting();
         case 5:break;
         default:setting();
