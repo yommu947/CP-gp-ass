@@ -42,25 +42,26 @@ char number(int num) {//turn number into character
 void setting() {
     int option;
     cout << "\n\n*** Setting Menu ***\n";
-    cout << "[1] Who starts first\n[2] Display PC's ships\n[3] Sea size\n[4] Number of ships\n[5] Returnto game menu\n";
+    cout << "[1] Who starts first\n[2] Display PC's ships\n[3] Sea size\n[4] Number of ships\n[5] Return to game menu\n";
     cout << "********************";
     cout << endl << "Option (1 - 5):";
     cin >> option;
     switch (option) {
-        case 1:cout << "Let PC start first?(Input 1 for yes 0 for no)"; cin >> pcstart; setting();
-        case 2:cout << "Display PC's ships?;(Input 1 for yes 0 for no)"; cin >> displaypc; setting();
-        case 3:cout << "Set sea size(5 to 10)"; cin >> seasize; setting();
+        case 1:cout << "Let PC start first?(Input 1 for yes 0 for no)"; cin >> pcstart; cout<<"setting complete"; setting();
+        case 2:cout << "Display PC's ships?;(Input 1 for yes 0 for no)"; cin >> displaypc; cout<<"setting complete";setting();
+        case 3:cout << "Set sea size(5 to 10)"; cin >> seasize;cout<<"setting complete"; setting();
         case 4:
-            cout << "Carrier (" << carrier << ") change to ";
+            cout << "Carrier " << carrier << " change to ";
             cin >> carrier;
-            cout << "Battleship (" << battleship << ") change to ";
+            cout << "Battleship " << battleship << " change to ";
             cin >> battleship;
-            cout << "Submarine (" << submarine << ") change to ";
+            cout << "Submarine " << submarine << " change to ";
             cin >> submarine;
-            cout << "Destroyer (" << destroyer << ") change to ";
-            cin >> destroyer; setting();
+            cout << "Destroyer " << destroyer << " change to ";
+            cin >> destroyer;cout<<"setting complete"; setting();
+            
         case 5:break;
-        default:setting();
+        default:cout<<"Please input 1-5";setting();
     }
     
 }
