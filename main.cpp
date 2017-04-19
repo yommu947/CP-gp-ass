@@ -98,7 +98,7 @@ void setting() {
 	int option;
 	system("cls");
 	cout << "\n*** Setting Menu ***\n";
-	cout << "[1] Who starts first\n[2] Display PC's ships\n[3] Sea size\n[4] Number of ships\n[5] Returnto game menu\n";
+	cout << "[1] Who starts first\n[2] Display PC's ships\n[3] Sea size\n[4] Number of ships\n[5] Return to game menu\n";
 	cout << "********************";
 	cout << endl << "Option (1 - 5):";
 	cin >> option;
@@ -225,7 +225,7 @@ void setting() {
 
 		total_size = carrier * 5 + battleship * 4 + submarine * 3 + destroyer * 2;
 
-		while (total_size > seasize * seasize)
+		while ((total_size >= seasize * seasize) || (carrier < 1 || carrier > 5 ) || (battleship < 1 || battleship > 5 ) || (submarine < 1 || submarine > 5 ) || (destroyer < 1 || destroyer > 5 ))
 		{
 		system("cls");
 		cout << endl;
