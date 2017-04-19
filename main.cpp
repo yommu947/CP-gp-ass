@@ -14,6 +14,7 @@ void sea();
 void clear();
 void arrange();
 void game();
+void credits();
 
 int main() {
 
@@ -25,11 +26,22 @@ int main() {
 	cout << endl << "Option (1 - 5):";
 	cin >> choice;
 	switch (choice) {
-	case 1:game(); break;
-	case 2:setting(); break;
-	case 3:break;
-	case 4:break;
-	case 5:return 0;
+	case 1: game(); 
+		system("cls");
+		main();
+		break;
+	case 2: setting(); 
+		system("cls");
+		main();
+		break;
+	case 3: instructions();
+		system("cls");
+		main();break;
+	case 4: credits();
+		system("cls");
+		main();
+		break;
+	case 5: return 0;
 	default: cout << "Please input 1-5";
 	}
 	main();
@@ -216,4 +228,36 @@ void arrange() {
 void game() {
 	sea();
 	arrange();
+}
+
+
+void instructions() {
+	// option 3: Instructions 
+
+
+
+
+
+
+
+
+	system("pause");
+
+}
+
+void credits() {
+	// option 4: Credits 
+	
+	cout << endl;
+	cout << "Student Full Name		Student ID		Class" << endl;
+	cout << "Choi Yiu Tung			16152710A		202C" << endl;
+	cout << "Lee Chung Chak			16070266A		202A" << endl;
+	cout << "Hung Kam Chung			16016760A		202B" << endl;
+	cout << "Li Man Fung			16091471A		202B" << endl;
+	cout << "Leung Kwan Ho			16071890A		202B" << endl;
+	cout << "Leung Man Hin			16137324A		202C" << endl;
+	cout << endl;
+
+	system("pause");
+
 }
