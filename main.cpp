@@ -15,6 +15,7 @@ void clear();
 void arrange();
 void game();
 void credits();
+void instructions();
 
 int main() {
 
@@ -42,9 +43,11 @@ int main() {
 		main();
 		break;
 	case 5: return 0;
-	default: cout << "Please input 1-5";
+	default: system("cls");
+		cout << "Please input 1-5";
+		main();
 	}
-	main();
+	
 }
 
 char alphabet(int num) {//turn number into character
