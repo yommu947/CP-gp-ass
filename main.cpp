@@ -566,7 +566,15 @@ void game() {
 
 void instructions() {
 	// option 3: Instructions 
-
+       cout << "You are the player who playing the battleship game."<<endl;
+       cout << "You need to attack all the opponent's ships by using four types of ships-carrier, battleship,submarine and destroyer."<<endl;
+       cout << "Each ship can be placed either horizontally or vertically on the sea, and occupies the required number of slots according to its size."<<endl; 
+       cout << "Whenever a ship is placed on the sea, the occupied slots are marked with a capital letter ‘O’."<<endl; 
+       cout << "Then you should arrange the next ship until all the ships are placed on the sea."<<endl;
+       cout << "If you attack on an emptyslot, the slot is marked by an asterisk ‘*’."<<endl;
+       cout << "If you attack on the ship body, the slot is marked by a capital letter ‘H’."<<endl; 
+       cout << "You lose if your ships'body is hit by PC."<<endl;
+       cout << "You win the battleship game if you hit all opponent ships' body."<<endl;
 
 
 
