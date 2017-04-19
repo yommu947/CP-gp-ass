@@ -70,26 +70,26 @@ char alphabet(int num) {//turn number into character
 
 int number(char num) {//turn number into character
 	switch (num) {
-	case 'A': return 1;
-	case 'B': return 2;
-	case 'C': return 3;
-	case 'D': return 4;
-	case 'E': return 5;
-	case 'F': return 6;
-	case 'G': return 7;
-	case 'H': return 8;
-	case 'I': return 9;
-	case 'J': return 10;
-	case 'a': return 1;
-	case 'b': return 2;
-	case 'c': return 3;
-	case 'd': return 4;
-	case 'e': return 5;
-	case 'f': return 6;
-	case 'g': return 7;
-	case 'h': return 8;
-	case 'i': return 9;
-	case 'j': return 10;
+	case 'A': return 0;
+	case 'B': return 1;
+	case 'C': return 2;
+	case 'D': return 3;
+	case 'E': return 4;
+	case 'F': return 5;
+	case 'G': return 6;
+	case 'H': return 7;
+	case 'I': return 8;
+	case 'J': return 9;
+	case 'a': return 0;
+	case 'b': return 1;
+	case 'c': return 2;
+	case 'd': return 3;
+	case 'e': return 4;
+	case 'f': return 5;
+	case 'g': return 6;
+	case 'h': return 7;
+	case 'i': return 8;
+	case 'j': return 9;
 	default: return 0;
 	}
 }
@@ -279,7 +279,7 @@ void sea() {
 	cout << "+";
 
 
-	for (int row = 1; row <= seasize; row++) {
+	for (int row = 0; row < seasize; row++) {
 		cout << endl << alphabet(row) << " | ";
 		for (int col = 0; col < seasize; col++) {
 			cout << chart[row][col] << " ";
@@ -295,8 +295,8 @@ void sea() {
 }
 
 void clear() {
-	for (int c = 1; c <= 10; c++) {
-		for (int cc = 1; c <= 10; c++) {
+	for (int c = 0; c <= 10; c++) {
+		for (int cc = 0; c <= 10; c++) {
 			chart[c][cc] = ' ';
 		}
 	}
