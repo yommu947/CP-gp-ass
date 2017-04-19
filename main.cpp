@@ -3,12 +3,14 @@
 using namespace std;
 
 //globle variables: settings
-int seasize = 10, carrier = 1, battleship = 2, submarine = 3, destroyer = 4;
+int seasize = 10, carrier = 1, battleship = 1, submarine = 1, destroyer = 1;
 char displaypc = 'n';
 char pcstart = 'p';
 int total_size;
 char chart[10][10];
-char input[4];
+char input[5];
+bool quit = true;
+bool continues = false;
 
 char alphabet(int);//turn number into character
 int number(char);//turn number into character
@@ -19,9 +21,10 @@ void arrange();
 void game();
 void credits();
 void instructions();
+int quitfunction(char input[]);
 
 int main() {
-
+	
 	int choice;
 	cout << "\nWelcome Captain!";//welcome massage
 	cout << "\n\n*** Game Manu ***\n";
@@ -30,7 +33,9 @@ int main() {
 	cout << endl << "Option (1 - 5):";
 	cin >> choice;
 	switch (choice) {
-	case 1: game(); 
+	case 1:
+		system("cls");
+		game(); 
 		system("cls");
 		main();
 		break;
@@ -305,49 +310,60 @@ void clear() {
 
 void arrange() {
 	char xchar, ychar;
-	int x, y, direction;
+	int x, y;
+	char direction[5];
 	bool allow;
 	for (int c = 1; c <= carrier; c++) {
 		do{
 		allow = true;
 		cout << "Input coordinate of carrier "<<c<<"(e.g. C2) :";
 		cin >> input;
+		quitfunction(input);
+		if(continues == true){
+			cout << "Input coordinate of carrier "<<c<<"(e.g. C2) :";
+			cin >> input;
+		}
 		y = number(input[0]);
 		x = input[1] - 48;
 		cout << "\nInput direction of carrier " << c << "(1 for horizontal, 2 for vertical):";
 		cin >> direction;
+		quitfunction(direction);
+		if(quit == true){
+			cout << "\nInput direction of carrier " << c << "(1 for horizontal, 2 for vertical):";
+			cin >> direction;
+		}
 		cout << endl;
 		
 		
 		for (int cc = 0; cc < 5; cc++) {
-			if (direction == 1) {
-				if(chart[y][x + cc] == 'o'){allow=false;}
+			if (direction[0] == '1') {
+				if(chart[y][x + cc] == 'o'){allow = false;}
 			}
 			else {
-				if(chart[y + cc][x] == 'o'){allow=false;}
+				if(chart[y + cc][x] == 'o'){allow = false;}
 			}
 		}
-		/*
-	if(direction == 1){
-		if(x + 4 > 9){
-			allow=false;
+
+	if(direction[0] == '1'){
+		if(x + 4 > seasize - 1){
+			allow = false;
+		}
+	} else {
+		if(y + 4 > seasize - 1){
+			allow = false;
 		}
 	}
-	else{
-		if(y + 4 > 9){
-			allow=false;
-		}
+
+	if(y == 10 || x < 0 || x > 9 || input[2] != '\0'|| (direction[0] != '1' && direction[0] != '2') || direction[1] != '\0'){
+		allow = false;
 	}
-	if(y == 10 || x < 0 || x > 9 || input[2] != '\0'|| direction !=1 || direction != 2){
-		allow=false;
-	}
-	*/
+	
 		} while (allow == false);
 		
-
+		system("cls");
 		if(allow=true){
 		for (int cc = 0; cc < 5; cc++) {
-			if (direction == 1) {
+			if (direction[0] == '1') {
 				chart[y][x + cc] = 'o';
 			}
 			else {
@@ -364,23 +380,48 @@ void arrange() {
 		allow = true;
 		cout << "Input coordinate of Battleship " << c << "(e.g. C2) :";
 		cin >> input;
+		quitfunction(input);
+		if(continues == true){
+			cout << "Input coordinate of Battleship "<<c<<"(e.g. C2) :";
+			cin >> input;
+		}
 		y = number(input[0]);
 		x = input[1] - 48;
 		cout << "\nInput direction of Battleship " << c << "(1 for horizontal, 2 for vertical):";
 		cin >> direction;
-	for (int cc = 0; cc < 4; cc++) {
-			if (direction == 1) {
+		quitfunction(direction);
+		if(quit == true){
+			cout << "\nInput direction of Battleship " << c << "(1 for horizontal, 2 for vertical):";
+			cin >> direction;
+		}
+		for (int cc = 0; cc < 4; cc++) {
+			if (direction[0] == '1') {
 				if(chart[y][x + cc] == 'o'){allow=false;}
 			}
 			else {
 				if(chart[y + cc][x] == 'o'){allow=false;}
 			}
 		}
-		} while (x + 3 > 9 || y + 3 > 9 || allow == false || y == 10 || x < 0 || x > 9 || input[2] != '\0');
+	if(direction[0] == '1'){
+		if(x + 3 > seasize - 1){
+			allow = false;
+		}
+	} else {
+		if(y + 3 > seasize - 1){
+			allow = false;
+		}
+	}
 
+	if(y == 10 || x < 0 || x > 9 || input[2] != '\0'|| (direction[0] != '1' && direction[0] != '2') || direction[1] != '\0'){
+		allow = false;
+	}
+	
+		} while (allow == false);
+		
+		system("cls");
 		if(allow=true){
 		for (int cc = 0; cc < 4; cc++) {
-			if (direction == 1) {
+			if (direction[0] == '1') {
 				chart[y][x + cc] = 'o';
 			}
 			else {
@@ -392,29 +433,54 @@ void arrange() {
 	}
 
 
-
+	
 	for (int c = 1; c <= submarine; c++) {
 		do{
 		allow = true;
 		cout << "Input coordinate of submarine " << c << "(e.g. C2) :";
 		cin >> input;
+		quitfunction(input);
+		if(continues == true){
+			cout << "Input coordinate of submarine "<<c<<"(e.g. C2) :";
+			cin >> input;
+		}
 		y = number(input[0]);
 		x = input[1] - 48;
 		cout << "\nInput direction of submarine " << c << "(1 for horizontal, 2 for vertical):";
 		cin >> direction;
+		quitfunction(direction);
+		if(continues == true){
+			cout << "\nInput direction of submarine " << c << "(1 for horizontal, 2 for vertical):";
+			cin >> direction;
+		}
 		for (int cc = 0; cc < 3; cc++) {
-			if (direction == 1) {
+			if (direction[0] == '1') {
 				if(chart[y][x + cc] == 'o'){allow=false;}
 			}
 			else {
 				if(chart[y + cc][x] == 'o'){allow=false;}
 			}
 		}
-		} while (x + 2 > 9 || y + 2 > 9 || allow == false || y == 10 || x < 0 || x > 9 || input[2] != '\0');
+	if(direction[0] == '1'){
+		if(x + 2 > seasize - 1){
+			allow = false;
+		}
+	} else {
+		if(y + 2 > seasize - 1){
+			allow = false;
+		}
+	}
 
+	if(y == 10 || x < 0 || x > 9 || input[2] != '\0'|| (direction[0] != '1' && direction[0] != '2') || direction[1] != '\0'){
+		allow = false;
+	}
+	
+		} while (allow == false);
+		
+		system("cls");
 		if(allow=true){
 		for (int cc = 0; cc < 3; cc++) {
-			if (direction == 1) {
+			if (direction[0] == '1') {
 				chart[y][x + cc] = 'o';
 			}
 			else {
@@ -433,12 +499,22 @@ void arrange() {
 		allow = true;
 		cout << "Input coordinate of destroyer " << c << "(e.g. C2) :";
 		cin >> input;
+		quitfunction(input);
+		if(continues == true){
+			cout << "Input coordinate of destroyer "<<c<<"(e.g. C2) :";
+			cin >> input;
+		}
 		y = number(input[0]);
 		x = input[1] - 48;
 		cout << "\nInput direction of destroyer " << c << "(1 for horizontal, 2 for vertical):";
 		cin >> direction;
+		quitfunction(direction);
+		if(continues == true){
+			cout << "\nInput direction of destroyer " << c << "(1 for horizontal, 2 for vertical):";
+			cin >> direction;
+		}
 	for (int cc = 0; cc < 2; cc++) {
-			if (direction == 1) {
+			if (direction[0] == '1') {
 				if(chart[y][x + cc] == 'o'){
 					allow=false;
 				}
@@ -447,27 +523,27 @@ void arrange() {
 				if(chart[y + cc][x] == 'o'){allow=false;}
 			}
 		}
-	/*
-	if(direction == 1){
-		if(x + 1 > 9){
-			allow=false;
+	if(direction[0] == '1'){
+		if(x + 1 > seasize - 1){
+			allow = false;
+		}
+	} else {
+		if(y + 1 > seasize - 1){
+			allow = false;
 		}
 	}
-	else{
-		if(y + 1 > 9){
-			allow=false;
-		}
-	}
-	if(y == 10 || x < 0 || x > 9 || input[2] != '\0'|| direction !=1 || direction != 2){
-		allow=false;
-	}
-	*/
-		} while (allow == false);
-	
 
+	if(y == 10 || x < 0 || x > 9 || input[2] != '\0'|| (direction[0] != '1' && direction[0] != '2') || direction[1] != '\0'){
+		allow = false;
+	}
+	
+		} while (allow == false);
+		
+	
+		system("cls");
 		if(allow=true){
 		for (int cc = 0; cc < 2; cc++) {
-			if (direction == 1) {
+			if (direction[0] == '1') {
 				chart[y][x + cc] = 'o';
 			}
 			else {
@@ -477,7 +553,7 @@ void arrange() {
 		}
 		sea();
 	}
-
+	
 }
 
 void game() {
@@ -517,4 +593,27 @@ void credits() {
 
 	system("pause");
 
+}
+
+int quitfunction(char input[]){
+	char quit2[] = "Quit";
+	quit = true;
+	continues = false;
+	for(int i = 0; i < 4; i++){
+		if(input[i] != quit2[i]){
+			quit = false;
+		}
+	}
+	if(quit == true){
+		cout << "Do you want to quit?(y=yes,n=no): ";
+		char ans;
+		cin >> ans;
+		if(ans == 'y' || ans == 'Y'){
+			system("cls");
+			return main();
+		}
+		else{
+			continues = true;
+		}
+	}
 }
