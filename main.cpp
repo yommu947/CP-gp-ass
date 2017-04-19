@@ -301,7 +301,7 @@ void clear() {
 			chart[c][cc] = ' ';
 		}
 	}
-};
+}
 
 void arrange() {
 	char xchar, ychar;
@@ -341,9 +341,9 @@ void arrange() {
 	if(y == 10 || x < 0 || x > 9 || input[2] != '\0'|| direction !=1 || direction != 2){
 		allow=false;
 	}
-
+	*/
 		} while (allow == false);
-		*/
+		
 
 		if(allow=true){
 		for (int cc = 0; cc < 5; cc++) {
@@ -461,9 +461,9 @@ void arrange() {
 	if(y == 10 || x < 0 || x > 9 || input[2] != '\0'|| direction !=1 || direction != 2){
 		allow=false;
 	}
-
-		} while (allow == false);
 	*/
+		} while (allow == false);
+	
 
 		if(allow=true){
 		for (int cc = 0; cc < 2; cc++) {
@@ -477,16 +477,6 @@ void arrange() {
 		}
 		sea();
 	}
-
-
-	
-
-
-
-
-
-
-
 
 }
 
