@@ -1,7 +1,7 @@
 #include<iostream>
 #include<iomanip>
 using namespace std;
-
+//1
 //globle variables: settings
 int seasize = 10, carrier = 1, battleship = 2, submarine = 3, destroyer = 4;
 bool displaypc = false, pcstart = false;
