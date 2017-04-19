@@ -4,7 +4,9 @@ using namespace std;
 
 //globle variables: settings
 int seasize = 10, carrier = 1, battleship = 2, submarine = 3, destroyer = 4;
-bool displaypc = false, pcstart = false;
+char displaypc = 'n';
+char pcstart = 'p';
+int total_size;
 char chart[10][10];
 
 char alphabet(int);//turn number into character
@@ -94,28 +96,174 @@ int number(char num) {//turn number into character
 
 void setting() {
 	int option;
-	cout << "\n\n*** Setting Menu ***\n";
+	system("cls");
+	cout << "\n*** Setting Menu ***\n";
 	cout << "[1] Who starts first\n[2] Display PC's ships\n[3] Sea size\n[4] Number of ships\n[5] Returnto game menu\n";
 	cout << "********************";
 	cout << endl << "Option (1 - 5):";
 	cin >> option;
 	switch (option) {
-	case 1:cout << "Let PC start first?(Input 1 for yes 0 for no)"; cin >> pcstart; break;
-	case 2:cout << "Display PC's ships?(Input 1 for yes 0 for no)"; cin >> displaypc; break;
-	case 3:cout << "Set sea size(5 to 10)"; cin >> seasize; break;
+	case 1:	system("cls");
+		cout << "[1] Who starts first" << endl;
+		cout << "Who starts first? ";
+		if (pcstart == 'p') cout << "( Player First NOW)" << endl;
+		else cout << "( Computer First NOW )" << endl;
+
+		cout << "p: player, c: computer" << endl;
+		cout << "Please type here: ";
+		cin >> pcstart;
+		cout << endl;
+
+		if (pcstart == 'p') cout << "Player First" << endl;
+		else if (pcstart == 'c') cout << "Computer First" << endl;
+		else {
+
+			do {
+			cout << "Please enter p or c only" << endl;
+			cout << "Please type here: ";
+			cin >> pcstart;
+			cout << endl;
+		} while (pcstart != 'p' && pcstart != 'c');
+
+		if (pcstart == 'p') cout << "Player First" << endl;
+		else if (pcstart == 'c') cout << "Computer First" << endl;
+
+		}
+
+		cout << "State Updated" << endl;
+		system("pause");
+		system("cls");
+		setting();
+		break;
+			
+	case 2: system("cls");
+		cout << "[2] Display PC's ships" << endl;
+		cout << "Display PC's ships? ";
+		if (displaypc == 'y') cout << "(Display PC's ships NOW)" << endl;
+		else cout << "( Not display PC's ships NOW )" << endl;
+
+		cout << "Display = y or Not display = n" << endl;
+		cout << "Please type here: ";
+		cin >> displaypc;
+		cout << endl;
+
+		if (displaypc == 'y') cout << "Display PC's ships" << endl;
+
+		else if (displaypc == 'n') cout << "Not display PC's ships" << endl;
+
+		else {
+			do {
+				cout << "Please enter y or n only" << endl;
+				cout << "Please type here: ";
+				cin >> displaypc;
+				cout << endl;
+			} while (displaypc != 'y' && displaypc != 'n');
+
+		if (displaypc == 'y') cout << "Display PC's ships" << endl;
+		else if (displaypc == 'n') cout << "Not display PC's ships" << endl;
+
+		}
+
+		cout << "state updated" << endl;
+		system("pause");
+		system("cls");
+		setting();
+		break;
+	case 3: system("cls");
+		cout << "[3] Sea size" << endl;
+		cout << "Set sea size (5 to 10) " << "(NOW is " << seasize << " x " << seasize << ")" << endl;
+		cout << "Please type here: ";
+		cin >> seasize;
+
+		total_size = carrier * 5 + battleship * 4 + submarine * 3 + destroyer * 2;
+
+		while (seasize * seasize <= total_size) {
+		cout << endl;
+		cout << "Sea size should be from 5 to 10 (each side) and large than total size of ships" << endl;
+		cout << "The total size of ships is " << total_size << endl;
+		cout << "Please type here: ";
+		cin >> seasize;
+		}
+
+		while (seasize != 5 && seasize != 6 && seasize != 7 && seasize != 8 && seasize != 9 && seasize != 10)
+		{
+		cout << endl;
+		cout << "Sea size should be from 5 to 10 (each side) and large than total size of ships" << endl;
+		cout << "The total size of ships is " << total_size << endl;
+		cout << "Please type here: ";
+		cin >> seasize;
+			
+		}
+
+		cout << endl;
+		cout << "Sea size change to " << seasize << " x " << seasize << endl;
+		cout << "state updated" << endl;
+		system("pause");
+		setting();
+		break;
+
 	case 4:
-		cout << "Carrier (" << carrier << ") change to ";
+		system("cls");
+		cout << "[4] Number of ships" << endl;
+
+		cout << left << setw(22) << "Type of ship" << "Number" << endl;
+		cout << setw(11) << "carrier" << "(size 5):" << right << setw(5) << carrier << endl;
+		cout << left << setw(11) << "Battleship" << "(size 4):" << right << setw(5) << battleship << endl;
+		cout << left << setw(11) << "Submarine" << "(size 3):" << right << setw(5) << submarine << endl;
+		cout << left << setw(11) << "Destroyer" << "(size 2):" << right << setw(5) << destroyer << endl;
+		cout << endl;
+
+		cout << "Change the number of ships" << endl;
+		cout << "Carrier" << " change to ";
 		cin >> carrier;
-		cout << "Battleship (" << battleship << ") change to ";
+		cout << "Battleship" << " change to ";
 		cin >> battleship;
-		cout << "Submarine (" << submarine << ") change to ";
+		cout << "Submarine" << " change to ";
 		cin >> submarine;
-		cout << "Destroyer (" << destroyer << ") change to ";
-		cin >> destroyer; break;
-	case 5:main();
-	default:break;
+		cout << "Destroyer" << " change to ";
+		cin >> destroyer;
+
+		total_size = carrier * 5 + battleship * 4 + submarine * 3 + destroyer * 2;
+
+		while (total_size > seasize * seasize)
+		{
+		system("cls");
+		cout << endl;
+		cout << "SHIPS SIZE do not exceed the SEA SIZE" << endl;
+		cout << "Please try again " << "( Sea Size = " << seasize << " x " << seasize << " )" << endl;
+		cout << endl;
+
+		cout << "Change the number of ships" << endl;
+
+		cout << "Carrier" << " change to ";
+		cin >> carrier;
+		cout << "Battleship" << " change to ";
+		cin >> battleship;
+		cout << "Submarine" << " change to ";
+		cin >> submarine;
+		cout << "Destroyer" << " change to ";
+		cin >> destroyer;
+
+		total_size = carrier * 5 + battleship * 4 + submarine * 3 + destroyer * 2;
+		}
+		
+		cout << endl;
+		cout << "state updated" << endl;
+		system("pause");
+		system("cls");
+		setting();
+		break;
+
+
+
+	case 5: system("pause");
+			system("cls");
+			break;
+	default:system("cls");
+			setting();
+			break;
 	}
-	if (option!=5) { setting(); }
+
 
 }
 
