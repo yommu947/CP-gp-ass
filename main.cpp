@@ -312,6 +312,16 @@ void arrange() {
 		x = xchar-48;
 		cout << "\nInput direction of carrier " << c << "(1 for horizontal, 2 for vertical):";
 		cin >> direction;
+		bool allow=true;
+		for (int cc = 0; cc < 5; cc++) {
+			if (direction == 1) {
+				if(chart[y][x + cc] == 'o'){allow=false};
+			}
+			else {
+				if()hart[y + cc][x] == 'o'){allow=false);
+			}
+		}
+		if(allow=true){
 		for (int cc = 0; cc < 5; cc++) {
 			if (direction == 1) {
 				chart[y][x + cc] = 'o';
@@ -319,6 +329,7 @@ void arrange() {
 			else {
 				chart[y + cc][x] = 'o';
 			}
+		}
 		}
 		sea();
 	}
