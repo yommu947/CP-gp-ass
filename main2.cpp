@@ -651,7 +651,7 @@ void AIarrange() {
             if (AIshipdirection == 1) {
                 pt1 = rand() % seasize;
                 pt2 = rand() % 6;
-                for (int i = pt2; i < pt2 + 4; i++) {
+                for (int i = pt2; i <= pt2 + 4; i++) {
                     if (AIchart[pt1][i] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -676,7 +676,7 @@ void AIarrange() {
             } else {//vertical
                 pt1 = rand() % 6;
                 pt2 = rand() % seasize;
-                for (int i = pt1; i < pt1 + 4; i++) {
+                for (int i = pt1; i <= pt1 + 4; i++) {
                     if (AIchart[i][pt2] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -702,7 +702,7 @@ void AIarrange() {
             if (AIshipdirection == 1) {
                 pt1 = rand() % seasize;
                 pt2 = rand() % 7;
-                for (int i = pt2; i < pt2 + 3; i++) {
+                for (int i = pt2; i <= pt2 + 3; i++) {
                     if (AIchart[pt1][i] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -726,7 +726,7 @@ void AIarrange() {
             } else {//vertical
                 pt1 = rand() % 7;
                 pt2 = rand() % seasize;
-                for (int i = pt1; i < pt1 + 3; i++) {
+                for (int i = pt1; i <= pt1 + 3; i++) {
                     if (AIchart[i][pt2] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -751,7 +751,7 @@ void AIarrange() {
             if (AIshipdirection == 1) {
                 pt1 = rand() % seasize;
                 pt2 = rand() % 8;
-                for (int i = pt2; i < pt2 + 2; i++) {
+                for (int i = pt2; i <= pt2 + 2; i++) {
                     if (AIchart[pt1][i] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -774,7 +774,7 @@ void AIarrange() {
             } else {//vertical
                 pt1 = rand() % 8;
                 pt2 = rand() % seasize;
-                for (int i = pt1; i < pt1 + 2; i++) {
+                for (int i = pt1; i <= pt1 + 2; i++) {
                     if (AIchart[i][pt2] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -783,7 +783,7 @@ void AIarrange() {
                     }
                 }
                 if (errorcheck == 1) {
-                    pt1 = rand() % 7;
+                    pt1 = rand() % 8;
                     pt2 = rand() % seasize;
                     AIchart[pt1][pt2] = 'o';
                     AIchart[pt1 + 1][pt2] = 'o';
@@ -798,7 +798,7 @@ void AIarrange() {
             if (AIshipdirection == 1) {
                 pt1 = rand() % seasize;
                 pt2 = rand() % 9;
-                for (int i = pt2; i < pt2 + 1; i++) {
+                for (int i = pt2; i <= pt2 + 1; i++) {
                     if (AIchart[pt1][i] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -820,7 +820,7 @@ void AIarrange() {
             } else {//vertical
                 pt1 = rand() % 9;
                 pt2 = rand() % seasize;
-                for (int i = pt1; i < pt1 + 2; i++) {
+                for (int i = pt1; i <= pt1 + 2; i++) {
                     if (AIchart[i][pt2] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -829,7 +829,7 @@ void AIarrange() {
                     }
                 }
                 if (errorcheck == 1) {
-                    pt1 = rand() % 7;
+                    pt1 = rand() % 9;
                     pt2 = rand() % seasize;
                     AIchart[pt1][pt2] = 'o';
                     AIchart[pt1 + 1][pt2] = 'o';
