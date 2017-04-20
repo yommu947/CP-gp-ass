@@ -685,8 +685,6 @@ void AIarrange() {
                     }
                 }
                 if (errorcheck == 1) {
-                    pt1 = rand() % 6;
-                    pt2 = rand() % seasize;
                     AIchart[pt1][pt2] = 'o';
                     AIchart[pt1 + 1][pt2] = 'o';
                     AIchart[pt1 + 2][pt2] = 'o';
@@ -735,8 +733,6 @@ void AIarrange() {
                     }
                 }
                 if (errorcheck == 1) {
-                    pt1 = rand() % 7;
-                    pt2 = rand() % seasize;
                     AIchart[pt1][pt2] = 'o';
                     AIchart[pt1 + 1][pt2] = 'o';
                     AIchart[pt1 + 2][pt2] = 'o';
@@ -783,8 +779,6 @@ void AIarrange() {
                     }
                 }
                 if (errorcheck == 1) {
-                    pt1 = rand() % 8;
-                    pt2 = rand() % seasize;
                     AIchart[pt1][pt2] = 'o';
                     AIchart[pt1 + 1][pt2] = 'o';
                     AIchart[pt1 + 2][pt2] = 'o';
@@ -792,7 +786,7 @@ void AIarrange() {
             }
         } while (errorcheck == 0);
     }
-    for (int i = 1; i <= submarine; i++) {
+    for (int i = 1; i <= destroyer; i++) {
         do {//horizontal
             AIshipdirection = rand() % 2 + 1;
             if (AIshipdirection == 1) {
@@ -818,9 +812,7 @@ void AIarrange() {
                     carrierpt[6] = pt2 + 4;*/
                 }
             } else {//vertical
-                pt1 = rand() % 9;
-                pt2 = rand() % seasize;
-                for (int i = pt1; i <= pt1 + 2; i++) {
+                for (int i = pt1; i <= pt1 + 1; i++) {
                     if (AIchart[i][pt2] != 'o') {
                         errorcheck = 1;
                     } else {
@@ -839,7 +831,6 @@ void AIarrange() {
     }
     AIsea();
 }
-
 
 void game() {
     //sea();
