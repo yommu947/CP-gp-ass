@@ -412,7 +412,7 @@ void arrange() {
         } while (allow == false);
 
         system("cls");
-        if (allow = true) {
+        if (allow == true) {
             for (int cc = 0; cc < 5; cc++) {
                 if (direction[0] == '1') {
                     chart[y][x + cc] = 'o';
@@ -481,7 +481,7 @@ void arrange() {
         } while (allow == false);
 
         system("cls");
-        if (allow = true) {
+        if (allow == true) {
             for (int cc = 0; cc < 4; cc++) {
                 if (direction[0] == '1') {
                     chart[y][x + cc] = 'o';
@@ -552,7 +552,7 @@ void arrange() {
         } while (allow == false);
 
         system("cls");
-        if (allow = true) {
+        if (allow == true) {
             for (int cc = 0; cc < 3; cc++) {
                 if (direction[0] == '1') {
                     chart[y][x + cc] = 'o';
@@ -627,7 +627,7 @@ void arrange() {
 
 
         system("cls");
-        if (allow = true) {
+        if (allow -= true) {
             for (int cc = 0; cc < 2; cc++) {
                 if (direction[0] == '1') {
                     chart[y][x + cc] = 'o';
@@ -977,10 +977,10 @@ void playerturn(){
     }while(allow == false);
 
     if(AIchart[y][x] == ' '){
-        AIchart[y][x] == '*';
+        AIchart[y][x] = '*';
     }
     else if(AIchart[y][x] == 'o'){
-        AIchart[y][x] == 'H';
+        AIchart[y][x] = 'H';
     }
     turn++;
     //.......... AIship - 1
@@ -1001,10 +1001,10 @@ void AIturn(){
         }while(allow == false);
 
         if(chart[AIy][AIx] == ' '){
-            chart[AIy][AIx] == '*';
+            chart[AIy][AIx] = '*';
         }
         else if(chart[AIy][AIx] == 'o'){
-            chart[AIy][AIx] == 'H';
+            chart[AIy][AIx] = 'H';
             random = false;
         }
     }
@@ -1014,41 +1014,41 @@ void AIturn(){
         a = rand() % 4;
         switch(a){
             case 0: if(chart[AIy][AIx + 1] == ' '){
-                    chart[AIy][AIx + 1] == '*';
+                    chart[AIy][AIx + 1] = '*';
                     east = east + 1;
                 }
                 else if(chart[AIy][AIx + 1] == 'o'){
-                    chart[AIy][AIx + 1] == 'H';
+                    chart[AIy][AIx + 1] = 'H';
                     east = east + 2;
                 }
                 break;
 
             case 1: if(chart[AIy - 1][AIx] == ' '){
-                    chart[AIy - 1][AIx] == '*';
+                    chart[AIy - 1][AIx] = '*';
                     south = south + 1;
                 }
                 else if(chart[AIy - 1][AIx] == 'o'){
-                    chart[AIy - 1][AIx] == 'H';
+                    chart[AIy - 1][AIx] = 'H';
                     south = south + 2;
                 }
                 break;
 
             case 2: if(chart[AIy][AIx - 1] == ' '){
-                    chart[AIy][AIx - 1] == '*';
+                    chart[AIy][AIx - 1] = '*';
                     west = west + 1;
                 }
                 else if(chart[AIy][AIx - 1] == 'o'){
-                    chart[AIy][AIx - 1] == 'H';
+                    chart[AIy][AIx - 1] = 'H';
                     west = west + 2;
                 }
                 break;
 
             case 3: if(chart[AIy + 1][AIx] == ' '){
-                    chart[AIy + 1][AIx] == '*';
+                    chart[AIy + 1][AIx] = '*';
                     north = north + 1;
                 }
                 else if(chart[AIy + 1][AIx] == 'o'){
-                    chart[AIy + 1][AIx] == 'H';
+                    chart[AIy + 1][AIx] = 'H';
                     north = north + 2;
                 }
                 break;
@@ -1057,7 +1057,7 @@ void AIturn(){
     }
 
     // wrong but do not delete
-    /*
+/*
     else if(east == 1 && south == 0 && west == 0 && north == 0 && random == false){
         int a;
         srand(time(0));
@@ -1141,8 +1141,8 @@ void AIturn(){
 
 
 
-    }
+    }*/
 
-    */
+
 
 }
