@@ -1,0 +1,117 @@
+void AIturn() {
+    char directionactive;
+    char direction;
+    if (east == 0 && south == 0 && west == 0 && north == 0 && random == true) {
+        bool allow = true;
+        srand(time(0));
+        do {
+            AIx = rand() % 10;
+            AIy = rand() % 10;
+
+            if (chart[AIy][AIx] == '*' || chart[AIy][AIx] == 'H') {
+                allow = false;
+            }
+
+        } while (allow == false);
+
+        if (chart[AIy][AIx] == ' ') {
+            chart[AIy][AIx] = '*';
+        }
+        else if (chart[AIy][AIx] == 'o') {
+            chart[AIy][AIx] = 'H';
+            random = false;
+        }
+    }else if ( random == false && directionactive == '1' ){
+
+        switch (direction){
+            case 0: if (chart[AIy][AIx + 1] == ' ') {
+                    chart[AIy][AIx + 1] = '*';
+                    direction='1';
+                }
+                else if (chart[AIy][AIx + 1] == 'o') {
+                    chart[AIy][AIx + 1] = 'H';
+                }
+                break;
+            case 1: if (chart[AIy][AIx + 1] == ' ') {
+                    chart[AIy][AIx + 1] = '*';
+                    direction='0';
+                }
+                else if (chart[AIy][AIx + 1] == 'o') {
+                    chart[AIy][AIx + 1] = 'H';
+                }
+                break;
+            case 2: if (chart[AIy][AIx + 1] == ' ') {
+                    chart[AIy][AIx + 1] = '*';
+                    direction='3';
+                }
+                else if (chart[AIy][AIx + 1] == 'o') {
+                    chart[AIy][AIx + 1] = 'H';
+                }
+                break;
+            case 3: if (chart[AIy][AIx + 1] == ' ') {
+                    chart[AIy][AIx + 1] = '*';
+                    direction='2';
+                }
+                else if (chart[AIy][AIx + 1] == 'o') {
+                    chart[AIy][AIx + 1] = 'H';
+                }
+                break;
+        }
+    }
+    else if (east == 0 && south == 0 && west == 0 && north == 0 && random == false) {
+        int a;
+
+
+        srand(time(0));
+        a = rand() % 4;
+        switch (a) {
+            case 0: if (chart[AIy][AIx + 1] == ' ') {
+                    chart[AIy][AIx + 1] = '*';
+                    east = east + 1;
+                }
+                else if (chart[AIy][AIx + 1] == 'o') {
+                    chart[AIy][AIx + 1] = 'H';
+                    east = east + 2;
+                direction = 0 ;
+                directionactive = '1';
+                }
+                break;
+
+            case 1: if (chart[AIy - 1][AIx] == ' ') {
+                    chart[AIy - 1][AIx] = '*';
+                    south = south + 1;
+                }
+                else if (chart[AIy - 1][AIx] == 'o') {
+                    chart[AIy - 1][AIx] = 'H';
+                    south = south + 2;
+                    direction = 1;
+                    directionactive = '1';
+                }
+                break;
+
+            case 2: if (chart[AIy][AIx - 1] == ' ') {
+                    chart[AIy][AIx - 1] = '*';
+                    west = west + 1;
+                }
+                else if (chart[AIy][AIx - 1] == 'o') {
+                    chart[AIy][AIx - 1] = 'H';
+                    west = west + 2;
+                    direction = 2;
+                    directionactive = '1';
+                }
+                break;
+
+            case 3: if (chart[AIy + 1][AIx] == ' ') {
+                    chart[AIy + 1][AIx] = '*';
+                    north = north + 1;
+                }
+                else if (chart[AIy + 1][AIx] == 'o') {
+                    chart[AIy + 1][AIx] = 'H';
+                    north = north + 2;
+                    direction = 3;
+                    directionactive = '1';
+                }
+                break;
+        }
+
+    }
