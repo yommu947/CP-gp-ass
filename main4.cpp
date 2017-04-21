@@ -339,7 +339,9 @@ void AIsea() {
 	for (int row = 0; row < seasize; row++) {
 		cout << endl << alphabet(row) << " | ";
 		for (int col = 0; col < seasize; col++) {
-			cout << AIchart[row][col] << " ";
+			if(displaypc==false && AIchart[row][col]=='o'){
+				cout << " ";
+			}else{cout<<AI[row][col];}
 		}
 		cout << "|";
 
