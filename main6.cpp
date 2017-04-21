@@ -1094,8 +1094,9 @@ void AIturn() {
         switch (direction) {
             case 0: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H') {
                     chart[AIy][AIx + 1] = '*';
-                    direction = 1;if(AIx==seasize)
-                    directionactive = '0';
+                    direction = 1;
+                    if(AIx==seasize)
+                    {directionactive = '0';}
                 }
                 else if (chart[AIy][AIx + 1] == 'o') {
                     chart[AIy][AIx + 1] = 'H';
@@ -1103,8 +1104,13 @@ void AIturn() {
                 break;
             case 1: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
                     chart[AIy - 1][AIx] = '*';
-                    direction = 0;if(AIy==0)
-                    directionactive = '0';
+                    direction = 0;
+                    if(AIy==0)
+                    {directionactive = '0';}
+                    if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
+                        Random = true ;
+                        directionactive = '0';
+                    }
                 }
                 else if (chart[AIy - 1][AIx] == 'o') {
                     chart[AIy -1][AIx] = 'H';
@@ -1112,8 +1118,13 @@ void AIturn() {
                 break;
             case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
                     chart[AIy][AIx - 1] = '*';
-                    direction = 3;if(AIx==0)
-                    directionactive = '0';
+                    direction = 3;
+                    if(AIx==0)
+                    {directionactive = '0';}
+                    if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
+                        Random = true ;
+                        directionactive = '0';
+                    }
                 }
                 else if (chart[AIy][AIx - 1] == 'o') {
                     chart[AIy][AIx - 1] = 'H';
@@ -1121,8 +1132,13 @@ void AIturn() {
                 break;
             case 3: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
                     chart[AIy+1][AIx] = '*';
-                    direction = 2;if(AIy==seasize)
-                    directionactive = '0';
+                    direction = 2;
+                    if(AIy==seasize)
+                    {directionactive = '0';}
+                    if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
+                        Random = true ;
+                        directionactive = '0';
+                    }
                 }
                 else if (chart[AIy+1][AIx] == 'o') {
                     chart[AIy+1][AIx] = 'H';
@@ -1135,7 +1151,7 @@ void AIturn() {
         srand(time(0));
         a = rand() % 4;
         switch (a) {
-            case 0: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
+            case 0: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIx != seasize ) {
                     chart[AIy][AIx + 1] = '*';
                     east = east + 1;
                 }
@@ -1144,10 +1160,15 @@ void AIturn() {
                     east = east + 2;
                     direction = 0;
                     directionactive = '1';
+                    Random = true;
+                    if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
+                        Random = true ;
+                        directionactive = '0';
+                    }
                 }
                 break;
 
-            case 1: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
+            case 1: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIy != 0  ) {
                     chart[AIy - 1][AIx] = '*';
                     south = south + 1;
                 }
@@ -1156,10 +1177,15 @@ void AIturn() {
                     south = south + 2;
                     direction = 1;
                     directionactive = '1';
+                    Random = true;
+                    if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
+                        Random = true ;
+                        directionactive = '0';
+                    }
                 }
                 break;
 
-            case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H') {
+            case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIx != 0) {
                     chart[AIy][AIx - 1] = '*';
                     west = west + 1;
                 }
@@ -1168,10 +1194,15 @@ void AIturn() {
                     west = west + 2;
                     direction = 2;
                     directionactive = '1';
+                    Random = true;
+                    if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
+                        Random = true ;
+                        directionactive = '0';
+                    }
                 }
                 break;
 
-            case 3: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H') {
+            case 3: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIy != seasize) {
                     chart[AIy + 1][AIx] = '*';
                     north = north + 1;
                 }
@@ -1180,6 +1211,11 @@ void AIturn() {
                     north = north + 2;
                     direction = 3;
                     directionactive = '1';
+                    Random = true;
+                    if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
+                        Random = true ;
+                        directionactive = '0';
+                    }
                 }
                 break;
         }
@@ -1188,8 +1224,6 @@ void AIturn() {
     turn++;
     checkdistroyed();
 }
-
-
 
 void checkdistroyed() {
     int shippart;
