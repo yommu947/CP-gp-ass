@@ -46,7 +46,6 @@ void Battlestage();
 void playerturn();
 void AIturn();
 void checkdistroyed();
-void enemysea();
 
 int main() {
 
