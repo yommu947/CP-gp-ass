@@ -982,10 +982,6 @@ void Battlestage() {
         cout << "Playership numbers : " << setw(6) << left << playership << "AIship numbers : " << AIship << endl << endl;
         cout << AIbattleshipdir[1][0] << AIbattleshipdir[1][1] << AIbattleshipdir[1][2] << endl;
         cout << AIbattleshipdir[2][0] << AIbattleshipdir[2][1] << AIbattleshipdir[2][2] << endl;
-        cout << AIcarrier << endl;
-        cout << AIbattleship << endl;
-        cout << AIsubmarine << endl;
-        cout << AIdestroyer << endl;
         cout << "Player sea" << endl << endl;
         sea();
         cout << endl;
@@ -1087,6 +1083,10 @@ void AIturn() {
         else if (chart[AIy][AIx] == 'o') {
             chart[AIy][AIx] = 'H';
             Random = false;
+            if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
+                Random = true ;
+                directionactive = '0';
+            }
         }
     }
     else if (Random == false && directionactive == '1') {
@@ -1160,7 +1160,6 @@ void AIturn() {
                     east = east + 2;
                     direction = 0;
                     directionactive = '1';
-                    Random = true;
                     if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
                         Random = true ;
                         directionactive = '0';
@@ -1177,7 +1176,6 @@ void AIturn() {
                     south = south + 2;
                     direction = 1;
                     directionactive = '1';
-                    Random = true;
                     if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
                         Random = true ;
                         directionactive = '0';
@@ -1194,7 +1192,6 @@ void AIturn() {
                     west = west + 2;
                     direction = 2;
                     directionactive = '1';
-                    Random = true;
                     if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
                         Random = true ;
                         directionactive = '0';
@@ -1211,7 +1208,6 @@ void AIturn() {
                     north = north + 2;
                     direction = 3;
                     directionactive = '1';
-                    Random = true;
                     if (AIx==seasize || AIy==seasize || AIx==0 || AIy==0) {
                         Random = true ;
                         directionactive = '0';
