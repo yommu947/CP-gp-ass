@@ -1159,7 +1159,7 @@ void AIturn() {
                 }
                 break;
 
-            case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H'x==0) {
+            case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H') {
                     chart[AIy][AIx - 1] = '*';
                     west = west + 1;
                 }
@@ -1171,7 +1171,7 @@ void AIturn() {
                 }
                 break;
 
-            case 3: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIy==seasize) {
+            case 3: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H') {
                     chart[AIy + 1][AIx] = '*';
                     north = north + 1;
                 }
