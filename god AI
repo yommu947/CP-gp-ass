@@ -1,0 +1,26 @@
+void AIturn() {
+
+	if ((chart[y + 1][x] == ' ' || chart[y + 1][x] == 'o') && y < seasize) { y++; }
+	else {
+		if ((chart[y][x + 1] == ' ' || chart[y][x + 1] == 'o') && x < seasize) { x++; }
+		else {
+			if ((chart[y - 1][x] == ' ' || chart[y - 1][x] == 'o') && y >= 0) { y--; }
+			else {	if ((chart[y][x - 1] == ' ' || chart[y][x - 1] == 'o') && x >= 0) { x--; }
+					else { AIlasthit = false; }
+			}
+		}
+	}
+
+	if (AIlasthit == false) {
+		do {
+			x = rand() % seasize;
+			y = rand() % seasize;
+		} while (chart[y][x] == '*' || chart[y][x] == 'H');
+	}
+	
+	if (chart[y][x] == 'o') { chart[y][x] = 'H'; AIlasthit = true; }
+	else { chart[y][x] = '*'; AIlasthit = false; } 
+	
+	turn++;
+	checkdistroyed();
+}
