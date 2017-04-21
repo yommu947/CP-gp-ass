@@ -339,9 +339,10 @@ void AIsea() {
 	for (int row = 0; row < seasize; row++) {
 		cout << endl << alphabet(row) << " | ";
 		for (int col = 0; col < seasize; col++) {
-			if(displaypc==false && AIchart[row][col]=='o'){
-				cout << " ";
-			}else{cout<<AI[row][col];}
+			if (displaypc == false && AIchart[row][col] == 'o') {
+				cout << "  ";
+			}
+			else { cout << AIchart[row][col]<<" "; }
 		}
 		cout << "|";
 
@@ -352,15 +353,13 @@ void AIsea() {
 	}
 	cout << "+" << endl;
 }
-
 void clear() {
 	for (int c = 0; c < 10; c++) {
-		for (int cc = 0; c < 10; c++) {
+		for (int cc = 0; cc < 10; cc++) {
 			chart[c][cc] = ' ';
+			AIchart[c][cc] = ' ';
 		}
-		cout << "hihi";
 	}
-
 }
 
 void arrange() {
