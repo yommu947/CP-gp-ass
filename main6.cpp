@@ -1092,36 +1092,36 @@ void AIturn() {
     else if (Random == false && directionactive == '1') {
 
         switch (direction) {
-            case 0: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIx==seasize) {
+            case 0: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H') {
                     chart[AIy][AIx + 1] = '*';
-                    direction = 1;
+                    direction = 1;if(AIx==seasize)
                     directionactive = '0';
                 }
                 else if (chart[AIy][AIx + 1] == 'o') {
                     chart[AIy][AIx + 1] = 'H';
                 }
                 break;
-            case 1: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIy==0 ) {
+            case 1: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
                     chart[AIy - 1][AIx] = '*';
-                    direction = 0;
+                    direction = 0;if(AIy==0)
                     directionactive = '0';
                 }
                 else if (chart[AIy - 1][AIx] == 'o') {
                     chart[AIy -1][AIx] = 'H';
                 }
                 break;
-            case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIx==0) {
+            case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
                     chart[AIy][AIx - 1] = '*';
-                    direction = 3;
+                    direction = 3;if(AIx==0)
                     directionactive = '0';
                 }
                 else if (chart[AIy][AIx - 1] == 'o') {
                     chart[AIy][AIx - 1] = 'H';
                 }
                 break;
-            case 3: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIy==seasize ) {
+            case 3: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
                     chart[AIy+1][AIx] = '*';
-                    direction = 2;
+                    direction = 2;if(AIy==seasize)
                     directionactive = '0';
                 }
                 else if (chart[AIy+1][AIx] == 'o') {
@@ -1132,11 +1132,10 @@ void AIturn() {
     }
     else if (Random == false && directionactive == '0') {
         int a;
-
         srand(time(0));
         a = rand() % 4;
         switch (a) {
-            case 0: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIx==seasize) {
+            case 0: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
                     chart[AIy][AIx + 1] = '*';
                     east = east + 1;
                 }
@@ -1148,7 +1147,7 @@ void AIturn() {
                 }
                 break;
 
-            case 1: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIy==0 ) {
+            case 1: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' ) {
                     chart[AIy - 1][AIx] = '*';
                     south = south + 1;
                 }
@@ -1160,7 +1159,7 @@ void AIturn() {
                 }
                 break;
 
-            case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H' && AIx==0) {
+            case 2: if (chart[AIy][AIx] != '*' && chart[AIy][AIx] != 'o' && chart[AIy][AIx] != 'H'x==0) {
                     chart[AIy][AIx - 1] = '*';
                     west = west + 1;
                 }
