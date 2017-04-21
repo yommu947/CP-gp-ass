@@ -1,16 +1,34 @@
 #include<iostream>
 #include<iomanip>
+#include<cstdlib>
+
 using namespace std;
 
 //globle variables: settings
-int seasize = 10, carrier = 1, battleship = 1, submarine = 1, destroyer = 1;
-char displaypc = 'n';
+int seasize = 10, carrier = 2, battleship = 2, submarine = 2, destroyer = 2;
+char displaypc = 'y';
 char pcstart = 'p';
 int total_size;
 char chart[10][10];
 char AIchart[10][10];
 char input[5];
 bool quit, continues, askagain;
+int turn;
+int playercarrier = carrier, playerbattleship = battleship, playersubmarine = submarine, playerdestroyer = destroyer;
+int playership = playercarrier + playerbattleship + playersubmarine + playerdestroyer;
+int AIcarrier = carrier, AIbattleship = battleship, AIsubmarine = submarine, AIdestroyer = destroyer;
+int AIship = AIcarrier + AIbattleship + AIsubmarine + AIdestroyer;
+bool random = true;
+int east = 0, south = 0, west = 0, north = 0;
+int AIx, AIy;
+int carrierdir[6][3];
+int battleshipdir[6][3];
+int submarinedir[6][3];
+int destroyerdir[6][3];
+int AIcarrierdir[6][3];
+int AIbattleshipdir[6][3];
+int AIsubmarinedir[6][3];
+int AIdestroyerdir[6][3];
 
 char alphabet(int);//turn number into character
 int number(char);//turn number into character
@@ -24,6 +42,11 @@ void instructions();
 void quitfunction(char input[]);
 void AIsea();
 void AIarrange();
+void Battlestage();
+void playerturn();
+void AIturn();
+void checkdistroyed();
+void enemysea();
 
 int main() {
 
@@ -302,46 +325,48 @@ void sea() {
 }
 
 void AIsea() {
-    cout << "   ";
-    for (int c = 0; c < seasize; c++) {
-        cout << right << setw(2) << c;
-    }
-    cout << endl << "  +-";
-    for (int c = 0; c < seasize; c++) {
-        cout << "--";
-    }
-    cout << "+";
+	cout << "   ";
+	for (int c = 0; c < seasize; c++) {
+		cout << right << setw(2) << c;
+	}
+	cout << endl << "  +-";
+	for (int c = 0; c < seasize; c++) {
+		cout << "--";
+	}
+	cout << "+";
 
 
-    for (int row = 0; row < seasize; row++) {
-        cout << endl << alphabet(row) << " | ";
-        for (int col = 0; col < seasize; col++) {
-            cout << AIchart[row][col] << " ";
-        }
-        cout << "|";
+	for (int row = 0; row < seasize; row++) {
+		cout << endl << alphabet(row) << " | ";
+		for (int col = 0; col < seasize; col++) {
+			if (displaypc == 'n' && AIchart[row][col] == 'o') {
+				cout << "  ";
+			}
+			else { cout << AIchart[row][col]<<" "; }
+		}
+		cout << "|";
 
-    }
-    cout << endl << "  +-";
-    for (int c = 0; c < seasize; c++) {
-        cout << "--";
-    }
-    cout << "+"<<endl;
+	}
+	cout << endl << "  +-";
+	for (int c = 0; c < seasize; c++) {
+		cout << "--";
+	}
+	cout << "+" << endl;
 }
 
 void clear() {
 	for (int c = 0; c < 10; c++) {
-		for (int cc = 0; c < 10; c++) {
+		for (int cc = 0; cc < 10; cc++) {
 			chart[c][cc] = ' ';
+			AIchart[c][cc] = ' ';
 		}
-		cout << "hihi";
 	}
-
 }
 
 void arrange() {
 	char xchar, ychar;
-	int x, y;
 	char direction[5];
+	int x, y;
 	bool allow;
 	for (int c = 1; c <= carrier; c++) {
 		do {
@@ -400,8 +425,12 @@ void arrange() {
 
 		} while (allow == false);
 
+
+		carrierdir[c][0] = direction[0] - 48;
+		carrierdir[c][1] = y;
+		carrierdir[c][2] = x;
 		system("cls");
-		if (allow = true) {
+		if (allow == true) {
 			for (int cc = 0; cc < 5; cc++) {
 				if (direction[0] == '1') {
 					chart[y][x + cc] = 'o';
@@ -413,7 +442,6 @@ void arrange() {
 		}
 		sea();
 	}
-
 
 	for (int c = 1; c <= battleship; c++) {
 		do {
@@ -470,8 +498,11 @@ void arrange() {
 
 		} while (allow == false);
 
+		battleshipdir[c][0] = direction[0] - 48;
+		battleshipdir[c][1] = y;
+		battleshipdir[c][2] = x;
 		system("cls");
-		if (allow = true) {
+		if (allow == true) {
 			for (int cc = 0; cc < 4; cc++) {
 				if (direction[0] == '1') {
 					chart[y][x + cc] = 'o';
@@ -541,8 +572,11 @@ void arrange() {
 
 		} while (allow == false);
 
+		submarinedir[c][0] = direction[0] - 48;
+		submarinedir[c][1] = y;
+		submarinedir[c][2] = x;
 		system("cls");
-		if (allow = true) {
+		if (allow == true) {
 			for (int cc = 0; cc < 3; cc++) {
 				if (direction[0] == '1') {
 					chart[y][x + cc] = 'o';
@@ -615,7 +649,9 @@ void arrange() {
 
 		} while (allow == false);
 
-
+		destroyerdir[c][0] = direction[0] - 48;
+		destroyerdir[c][1] = y;
+		destroyerdir[c][2] = x;
 		system("cls");
 		if (allow = true) {
 			for (int cc = 0; cc < 2; cc++) {
@@ -633,69 +669,236 @@ void arrange() {
 }
 
 void AIarrange() {
-    srand(time(0));
-    int AIshipdirection, pt1, pt2, errorcheck;
-    for (int i = 0; i <= carrier; i++) {
-        do {//horizontal
-            AIshipdirection = rand() % 2 + 1;
-            if (AIshipdirection == 1) {
-                pt1 = rand() % seasize;
-                pt2 = rand() % 6;
-                for (int i = pt2; i < pt2 + 4; i++) {
-                    if (AIchart[pt1][i] != 'o') {
-                        errorcheck = 1;
-                    } else {
-                        errorcheck = 0;
-                        break;
-                    }
-                }
-                if (errorcheck == 1) {
-                    AIchart[pt1][pt2] = 'o';
-                    AIchart[pt1][pt2 + 1] = 'o';
-                    AIchart[pt1][pt2 + 2] = 'o';
-                    AIchart[pt1][pt2 + 3] = 'o';
-                    AIchart[pt1][pt2 + 4] = 'o';
-                    /*carrierpt[0] = AIshipdirection;
-                    carrierpt[1] = pt1;
-                    carrierpt[2] = pt2;
-                    carrierpt[3] = pt2 + 1;
-                    carrierpt[4] = pt2 + 2;
-                    carrierpt[5] = pt2 + 3;
-                    carrierpt[6] = pt2 + 4;*/
-                }
-            } else {//vertical
-                pt1 = rand() % 6;
-                pt2 = rand() % seasize;
-                for (int i = pt1; i < pt1 + 4; i++) {
-                    if (AIchart[i][pt2] != 'o') {
-                        errorcheck = 1;
-                    } else {
-                        errorcheck = 0;
-                        break;
-                    }
-                }
-                if (errorcheck == 1) {
-                    pt1 = rand() % 6;
-                    pt2 = rand() % seasize;
-                    AIchart[pt1][pt2] = 'o';
-                    AIchart[pt1 + 1][pt2] = 'o';
-                    AIchart[pt1 + 2][pt2] = 'o';
-                    AIchart[pt1 + 3][pt2] = 'o';
-                    AIchart[pt1 + 4][pt2] = 'o';
-                }
-            }
-
-            AIsea();
-        } while (errorcheck == 0);
-    }
+	srand(time(0));
+	int AIshipdirection, pt1, pt2, errorcheck;
+	for (int i = 1; i <= carrier; i++) {
+		do {//horizontal
+			AIshipdirection = rand() % 2 + 1;
+			if (AIshipdirection == 1) {
+				pt1 = rand() % seasize;
+				pt2 = rand() % 6;
+				for (int i = pt2; i <= pt2 + 4; i++) {
+					if (AIchart[pt1][i] != 'o') {
+						errorcheck = 1;
+					}
+					else {
+						errorcheck = 0;
+						break;
+					}
+				}
+				if (errorcheck == 1) {
+					AIchart[pt1][pt2] = 'o';
+					AIchart[pt1][pt2 + 1] = 'o';
+					AIchart[pt1][pt2 + 2] = 'o';
+					AIchart[pt1][pt2 + 3] = 'o';
+					AIchart[pt1][pt2 + 4] = 'o';
+					/*carrierpt[0] = AIshipdirection;
+					carrierpt[1] = pt1;
+					carrierpt[2] = pt2;
+					carrierpt[3] = pt2 + 1;
+					carrierpt[4] = pt2 + 2;
+					carrierpt[5] = pt2 + 3;
+					carrierpt[6] = pt2 + 4;*/
+					AIcarrierdir[i][0] = AIshipdirection;
+					AIcarrierdir[i][1] = pt1;
+					AIcarrierdir[i][2] = pt2;
+				}
+			}
+			else {//vertical
+				pt1 = rand() % 6;
+				pt2 = rand() % seasize;
+				for (int i = pt1; i <= pt1 + 4; i++) {
+					if (AIchart[i][pt2] != 'o') {
+						errorcheck = 1;
+					}
+					else {
+						errorcheck = 0;
+						break;
+					}
+				}
+				if (errorcheck == 1) {
+					AIchart[pt1][pt2] = 'o';
+					AIchart[pt1 + 1][pt2] = 'o';
+					AIchart[pt1 + 2][pt2] = 'o';
+					AIchart[pt1 + 3][pt2] = 'o';
+					AIchart[pt1 + 4][pt2] = 'o';
+					AIcarrierdir[i][0] = AIshipdirection;
+					AIcarrierdir[i][1] = pt1;
+					AIcarrierdir[i][2] = pt2;
+				}
+			}
+		} while (errorcheck == 0);
+	}
+	for (int i = 1; i <= battleship; i++) {
+		do {//horizontal
+			AIshipdirection = rand() % 2 + 1;
+			if (AIshipdirection == 1) {
+				pt1 = rand() % seasize;
+				pt2 = rand() % 7;
+				for (int i = pt2; i <= pt2 + 3; i++) {
+					if (AIchart[pt1][i] != 'o') {
+						errorcheck = 1;
+					}
+					else {
+						errorcheck = 0;
+						break;
+					}
+				}
+				if (errorcheck == 1) {
+					AIchart[pt1][pt2] = 'o';
+					AIchart[pt1][pt2 + 1] = 'o';
+					AIchart[pt1][pt2 + 2] = 'o';
+					AIchart[pt1][pt2 + 3] = 'o';
+					/*carrierpt[0] = AIshipdirection;
+					carrierpt[1] = pt1;
+					carrierpt[2] = pt2;
+					carrierpt[3] = pt2 + 1;
+					carrierpt[4] = pt2 + 2;
+					carrierpt[5] = pt2 + 3;
+					carrierpt[6] = pt2 + 4;*/
+					AIbattleshipdir[i][0] = AIshipdirection;
+					AIbattleshipdir[i][1] = pt1;
+					AIbattleshipdir[i][2] = pt2;
+				}
+			}
+			else {//vertical
+				pt1 = rand() % 7;
+				pt2 = rand() % seasize;
+				for (int i = pt1; i <= pt1 + 3; i++) {
+					if (AIchart[i][pt2] != 'o') {
+						errorcheck = 1;
+					}
+					else {
+						errorcheck = 0;
+						break;
+					}
+				}
+				if (errorcheck == 1) {
+					AIchart[pt1][pt2] = 'o';
+					AIchart[pt1 + 1][pt2] = 'o';
+					AIchart[pt1 + 2][pt2] = 'o';
+					AIchart[pt1 + 3][pt2] = 'o';
+					AIbattleshipdir[i][0] = AIshipdirection;
+					AIbattleshipdir[i][1] = pt1;
+					AIbattleshipdir[i][2] = pt2;
+				}
+			}
+		} while (errorcheck == 0);
+	}
+	for (int i = 1; i <= submarine; i++) {
+		do {//horizontal
+			AIshipdirection = rand() % 2 + 1;
+			if (AIshipdirection == 1) {
+				pt1 = rand() % seasize;
+				pt2 = rand() % 8;
+				for (int i = pt2; i <= pt2 + 2; i++) {
+					if (AIchart[pt1][i] != 'o') {
+						errorcheck = 1;
+					}
+					else {
+						errorcheck = 0;
+						break;
+					}
+				}
+				if (errorcheck == 1) {
+					AIchart[pt1][pt2] = 'o';
+					AIchart[pt1][pt2 + 1] = 'o';
+					AIchart[pt1][pt2 + 2] = 'o';
+					/*carrierpt[0] = AIshipdirection;
+					carrierpt[1] = pt1;
+					carrierpt[2] = pt2;
+					carrierpt[3] = pt2 + 1;
+					carrierpt[4] = pt2 + 2;
+					carrierpt[5] = pt2 + 3;
+					carrierpt[6] = pt2 + 4;*/
+					AIsubmarinedir[i][0] = AIshipdirection;
+					AIsubmarinedir[i][1] = pt1;
+					AIsubmarinedir[i][2] = pt2;
+				}
+			}
+			else {//vertical
+				pt1 = rand() % 8;
+				pt2 = rand() % seasize;
+				for (int i = pt1; i <= pt1 + 2; i++) {
+					if (AIchart[i][pt2] != 'o') {
+						errorcheck = 1;
+					}
+					else {
+						errorcheck = 0;
+						break;
+					}
+				}
+				if (errorcheck == 1) {
+					AIchart[pt1][pt2] = 'o';
+					AIchart[pt1 + 1][pt2] = 'o';
+					AIchart[pt1 + 2][pt2] = 'o';
+					AIsubmarinedir[i][0] = AIshipdirection;
+					AIsubmarinedir[i][1] = pt1;
+					AIsubmarinedir[i][2] = pt2;
+				}
+			}
+		} while (errorcheck == 0);
+	}
+	for (int i = 1; i <= destroyer; i++) {
+		do {//horizontal
+			AIshipdirection = rand() % 2 + 1;
+			if (AIshipdirection == 1) {
+				pt1 = rand() % seasize;
+				pt2 = rand() % 9;
+				for (int i = pt2; i <= pt2 + 1; i++) {
+					if (AIchart[pt1][i] != 'o') {
+						errorcheck = 1;
+					}
+					else {
+						errorcheck = 0;
+						break;
+					}
+				}
+				if (errorcheck == 1) {
+					AIchart[pt1][pt2] = 'o';
+					AIchart[pt1][pt2 + 1] = 'o';
+					/*carrierpt[0] = AIshipdirection;
+					carrierpt[1] = pt1;
+					carrierpt[2] = pt2;
+					carrierpt[3] = pt2 + 1;
+					carrierpt[4] = pt2 + 2;
+					carrierpt[5] = pt2 + 3;
+					carrierpt[6] = pt2 + 4;*/
+					AIdestroyerdir[i][0] = AIshipdirection;
+					AIdestroyerdir[i][1] = pt1;
+					AIdestroyerdir[i][2] = pt2;
+				}
+			}
+			else {//vertical
+				for (int i = pt1; i <= pt1 + 1; i++) {
+					if (AIchart[i][pt2] != 'o') {
+						errorcheck = 1;
+					}
+					else {
+						errorcheck = 0;
+						break;
+					}
+				}
+				if (errorcheck == 1) {
+					pt1 = rand() % 9;
+					pt2 = rand() % seasize;
+					AIchart[pt1][pt2] = 'o';
+					AIchart[pt1 + 1][pt2] = 'o';
+					AIdestroyerdir[i][0] = AIshipdirection;
+					AIdestroyerdir[i][1] = pt1;
+					AIdestroyerdir[i][2] = pt2;
+				}
+			}
+		} while (errorcheck == 0);
+	}
 }
-
 
 void game() {
 	sea();
 	arrange();
-	//AIarrange();
-	//AIsea();
+	AIarrange();
+	Battlestage();
+
 
 
 }
@@ -764,4 +967,417 @@ void quitfunction(char input[]) {
 			quit = true;
 		}
 	}
+	cout << endl;
+}
+
+void Battlestage() {
+	if (pcstart == 'p') {
+		turn = 0;
+	}
+	else {
+		turn = 1;
+	}
+	while (playership != 0 && AIship != 0){
+		system("cls");
+		cout << "Playership numbers : " << setw(6) << left << playership << "AIship numbers : " << AIship << endl << endl;
+		cout << "Player sea" << endl << endl;
+		sea();
+		cout << endl;
+		cout << "AI sea" << endl << endl;
+		AIsea();
+		cout << endl;
+		if (turn % 2 == 0) {
+			playerturn();
+		}
+		else {
+			AIturn();
+		}
+	} 
+
+	system("cls");
+	cout << "Playership numbers : " << setw(6) << left << playership << "AIship numbers : " << AIship << endl << endl;
+	cout << "Player sea" << endl << endl;
+	sea();
+	cout << endl;
+	if (displaypc == 'y') {
+		cout << "AI sea" << endl << endl;
+		AIsea();
+		cout << endl;
+	}
+	if (playership == 0) {
+		cout << "Player's ships are all destroyed. AI Win!" << endl << endl;
+		system("pause");
+		clear();
+		system("cls");
+		main();
+	}
+	else {
+		cout << "AI's ships are all destroyed. Player Win!" << endl << endl;
+		system("pause");
+		system("cls");
+		clear();
+		main();
+	}
+}
+
+void playerturn() {
+	int x, y;
+	bool allow;
+	do {
+		allow = true;
+		do {
+			cout << "Which location you want to attack?(eg. c2): ";
+			cin >> input;
+			cout << endl;
+			quitfunction(input);
+			if (continues == false) {
+				system("cls");
+				clear();
+				main();
+				return;
+			}
+		} while (askagain == true);
+		y = number(input[0]);
+		x = input[1] - 48;
+		if (AIchart[y][x] == '*' && AIchart[y][x] == 'H') {
+			allow = false;
+		}
+		if (y == 10 || x < 0 || x > 9 || input[2] != '\0') {
+			allow = false;
+		}
+
+	} while (allow == false);
+
+	if (AIchart[y][x] != 'o') {
+		AIchart[y][x] = '*';
+		x = x + 1;
+	}
+	else if (AIchart[y][x] == 'o') {
+		AIchart[y][x] = 'H';
+	}
+	turn++;
+	checkdistroyed();
+}
+
+void AIturn() {
+	/*
+	if (east == 0 && south == 0 && west == 0 && north == 0 && random == true) {
+		bool allow = true;
+		srand(time(0));
+		do {
+			AIx = rand() % 10;
+			AIy = rand() % 10;
+			if (chart[AIy][AIx] == '*' && AIchart[AIy][AIx] == 'H') {
+				allow = false;
+			}
+		} while (allow == false);
+		if (chart[AIy][AIx] == ' ') {
+			chart[AIy][AIx] = '*';
+		}
+		else if (chart[AIy][AIx] == 'o') {
+			chart[AIy][AIx] = 'H';
+			random = false;
+		}
+	}
+	else if (east == 0 && south == 0 && west == 0 && north == 0 && random == false) {
+		int a;
+		srand(time(0));
+		a = rand() % 4;
+		switch (a) {
+		case 0: if (chart[AIy][AIx + 1] == ' ') {
+					chart[AIy][AIx + 1] = '*';
+					east = east + 1;
+				}
+				else if (chart[AIy][AIx + 1] == 'o') {
+					chart[AIy][AIx + 1] = 'H';
+					east = east + 2;
+				}
+				break;
+		case 1: if (chart[AIy - 1][AIx] == ' ') {
+					chart[AIy - 1][AIx] = '*';
+					south = south + 1;
+				}
+				else if (chart[AIy - 1][AIx] == 'o') {
+					chart[AIy - 1][AIx] = 'H';
+					south = south + 2;
+				}
+				break;
+		case 2: if (chart[AIy][AIx - 1] == ' ') {
+					chart[AIy][AIx - 1] = '*';
+					west = west + 1;
+				}
+				else if (chart[AIy][AIx - 1] == 'o') {
+					chart[AIy][AIx - 1] = 'H';
+					west = west + 2;
+				}
+				break;
+		case 3: if (chart[AIy + 1][AIx] == ' ') {
+					chart[AIy + 1][AIx] = '*';
+					north = north + 1;
+				}
+				else if (chart[AIy + 1][AIx] == 'o') {
+					chart[AIy + 1][AIx] = 'H';
+					north = north + 2;
+				}
+				break;
+		}
+	}
+	// wrong but do not delete
+	
+	else if(east == 1 && south == 0 && west == 0 && north == 0 && random == false){
+	int a;
+	srand(time(0));
+	a = rand() % 3;
+	switch(a){
+	case 0: if(chart[AIy - 1][AIx] == ' '){
+	chart[AIy - 1][AIx] == '*';
+	south = south + 1;
+	}
+	else if(chart[AIy - 1][AIx] == 'o'){
+	chart[AIy - 1][AIx] == 'H';
+	south = south + 2;
+	}
+	break;
+	case 1: if(chart[AIy][AIx - 1] == ' '){
+	chart[AIy][AIx - 1] == '*';
+	west = west + 1;
+	}
+	else if(chart[AIy][AIx - 1] == 'o'){
+	chart[AIy][AIx - 1] == 'H';
+	west = west + 2;
+	}
+	break;
+	case 2: if(chart[AIy + 1][AIx] == ' '){
+	chart[AIy + 1][AIx] == '*';
+	north = north + 1;
+	}
+	else if(chart[AIy + 1][AIx] == 'o'){
+	chart[AIy + 1][AIx] == 'H';
+	north = north + 2;
+	}
+	break;
+	}
+	}
+	else if(east == 1 && south == 1 && west == 0 && north == 0 && random == false){
+	int a;
+	srand(time(0));
+	a = rand() % 2;
+	switch(a){
+	case 0: if(chart[AIy][AIx - 1] == ' '){
+	chart[AIy][AIx - 1] == '*';
+	west = west + 1;
+	}
+	else if(chart[AIy][AIx - 1] == 'o'){
+	chart[AIy][AIx - 1] == 'H';
+	west = west + 2;
+	}
+	break;
+	case 1: if(chart[AIy + 1][AIx] == ' '){
+	chart[AIy + 1][AIx] == '*';
+	north = north + 1;
+	}
+	else if(chart[AIy + 1][AIx] == 'o'){
+	chart[AIy + 1][AIx] == 'H';
+	north = north + 2;
+	}
+	break;
+	}
+	}else if(east == 1 && south == 1 && west == 1 && north == 0 && random == false){
+	if(chart[AIy + 1][AIx] == ' '){
+	chart[AIy + 1][AIx] == '*';
+	north = north + 1;
+	}
+	else if(chart[AIy + 1][AIx] == 'o'){
+	chart[AIy + 1][AIx] == 'H';
+	north = north + 2;
+	}
+	}else if(east == 2 && (south == 0 || south == 1) && (west == 0 || west == 1) && (north == 0 || north == 1) && random == false){
+	if(chart[AIy][AIx + 1] == ' '){
+	chart[AIy][AIx + 1] == '*';
+	east = east + 1;
+	}
+	else if(chart[AIy][AIx + 1] == 'o'){
+	chart[AIy][AIx + 1] == 'H';
+	east = east + 2;
+	}
+	}
+	*/
+	turn++;
+	checkdistroyed();
+}
+
+void checkdistroyed() {
+	int shippart;
+	for (int i = 1; i <= playercarrier; i++) {
+		shippart = 0;
+		if (carrierdir[i][0] == 1) {
+			for (int a = 0; a <= 4; a++) {
+				if (chart[carrierdir[1][1]][carrierdir[1][2] + a] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		else if (carrierdir[1][0] == 2) {
+			for (int a = 0; a <= 4; a++) {
+				if (chart[carrierdir[1][1] + a][carrierdir[1][2]] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		if (shippart == 5) {
+			playercarrier = playercarrier - 1;
+		}
+	}
+
+	for (int i = 1; i <= playerbattleship; i++) {
+		shippart = 0;
+		if (battleshipdir[i][0] == 1) {
+			for (int a = 0; a <= 3; a++) {
+				if (chart[battleshipdir[1][1]][battleshipdir[1][2] + a] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		else if (battleshipdir[1][0] == 2) {
+			for (int a = 0; a <= 3; a++) {
+				if (chart[battleshipdir[1][1] + a][battleshipdir[1][2]] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		if (shippart == 4) {
+			playerbattleship = playerbattleship - 1;
+		}
+	}
+
+	for (int i = 1; i <= playersubmarine; i++) {
+		shippart = 0;
+		if (submarinedir[i][0] == 1) {
+			for (int a = 0; a <= 2; a++) {
+				if (chart[submarinedir[1][1]][submarinedir[1][2] + a] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		else if (submarinedir[1][0] == 2) {
+			for (int a = 0; a <= 2; a++) {
+				if (chart[submarinedir[1][1] + a][submarinedir[1][2]] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		if (shippart == 3) {
+			playersubmarine = playersubmarine - 1;
+		}
+	}
+	
+	for (int i = 1; i <= playerdestroyer; i++) {
+		shippart = 0;
+		if (destroyerdir[i][0] == 1) {
+			for (int a = 0; a <= 1; a++) {
+				if (chart[destroyerdir[1][1]][destroyerdir[1][2] + a] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		else if (destroyerdir[1][0] == 2) {
+			for (int a = 0; a <= 1; a++) {
+				if (chart[destroyerdir[1][1] + a][destroyerdir[1][2]] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		if (shippart == 2) {
+			playerdestroyer = playerdestroyer - 1;
+		}
+	}
+
+	playership = playercarrier + playerbattleship + playersubmarine + playerdestroyer;
+
+	for (int i = 1; i <= AIcarrier; i++) {
+		shippart = 0;
+		if (AIcarrierdir[i][0] == 1) {
+			for (int a = 0; a <= 4; a++) {
+				if (AIchart[AIcarrierdir[1][1]][AIcarrierdir[1][2] + a] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		else if (AIcarrierdir[1][0] == 2) {
+			for (int a = 0; a <= 4; a++) {
+				if (AIchart[AIcarrierdir[1][1] + a][AIcarrierdir[1][2]] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		if (shippart == 5) {
+			AIcarrier = AIcarrier - 1;
+		}
+	}
+
+		for (int i = 1; i <= AIbattleship; i++) {
+		shippart = 0;
+		if (AIbattleshipdir[i][0] == 1) {
+			for (int a = 0; a <= 3; a++) {
+				if (AIchart[AIbattleshipdir[1][1]][AIbattleshipdir[1][2] + a] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		else if (AIbattleshipdir[1][0] == 2) {
+			for (int a = 0; a <= 3; a++) {
+				if (AIchart[AIbattleshipdir[1][1] + a][AIbattleshipdir[1][2]] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		if (shippart == 4) {
+			AIbattleship = AIbattleship - 1;
+		}
+	}
+
+	for (int i = 1; i <= AIsubmarine; i++) {
+		shippart = 0;
+		if (AIsubmarinedir[i][0] == 1) {
+			for (int a = 0; a <= 2; a++) {
+				if (AIchart[AIsubmarinedir[1][1]][AIsubmarinedir[1][2] + a] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		else if (AIsubmarinedir[1][0] == 2) {
+			for (int a = 0; a <= 2; a++) {
+				if (AIchart[AIsubmarinedir[1][1] + a][AIsubmarinedir[1][2]] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		if (shippart == 3) {
+			AIsubmarine = AIsubmarine - 1;
+		}
+	}
+
+	for (int i = 1; i <= AIdestroyer; i++) {
+		shippart = 0;
+		if (AIdestroyerdir[i][0] == 1) {
+			for (int a = 0; a <= 1; a++) {
+				if (AIchart[AIdestroyerdir[1][1]][AIdestroyerdir[1][2] + a] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		else if (AIdestroyerdir[1][0] == 2) {
+			for (int a = 0; a <= 1; a++) {
+				if (AIchart[AIdestroyerdir[1][1] + a][AIdestroyerdir[1][2]] == 'H') {
+					shippart = shippart + 1;
+				}
+			}
+		}
+		if (shippart == 2) {
+			AIdestroyer = AIdestroyer - 1;
+		}
+	}
+
+	AIship = AIcarrier + AIbattleship + AIsubmarine + AIdestroyer;
+
 }
